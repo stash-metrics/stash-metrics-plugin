@@ -1,4 +1,4 @@
-﻿name: Metrics
+name: Metrics
 description: >
   Comprehensive library analytics for Stash. Adds an interactive Metrics
   dashboard with performer-centric demographics, tag co-occurrence, studio
@@ -7,7 +7,7 @@ description: >
   analytics consumed by the dashboard.
 version: 1.9.0
 url: https://github.com/Stash-Metrics/stash-metrics-plugin
-# Stash plugin manifest â€” see https://docs.stashapp.cc/in-app-manual/plugins/
+# Stash plugin manifest — see https://docs.stashapp.cc/in-app-manual/plugins/
 
 # Stash's plugin schema requires `exec:` at the plugin level, not per task
 # or hook. Every task / hook shares this launcher; the specific mode is
@@ -31,7 +31,7 @@ ui:
     - src/data/graphql.js
     - src/data/cache.js
     - src/data/preferences.js
-    # Backend-generated cache bootstrap â€” Stash's plugin schema only serves
+    # Backend-generated cache bootstrap — Stash's plugin schema only serves
     # files declared in ui.javascript, so we ship the metrics cache as a JS
     # file that assigns to window.__STASH_METRICS_CACHE__. The file ships
     # as a null stub committed to the repo; Update Metrics Cache overwrites
@@ -58,7 +58,7 @@ ui:
   css:
     - src/styles.css
 
-# Settings appear under Settings â†’ Plugins â†’ Metrics in the Stash UI and
+# Settings appear under Settings → Plugins → Metrics in the Stash UI and
 # are exposed to backend scripts via the PLUGIN_SETTINGS_JSON env var.
 settings:
   cacheTtlMinutes:
@@ -79,7 +79,7 @@ settings:
     type: NUMBER
   heightUnit:
     displayName: Height unit
-    description: cm or in â€” used for all height-related charts.
+    description: cm or in — used for all height-related charts.
     type: STRING
   excludeTagIds:
     displayName: Excluded tag IDs
@@ -122,12 +122,12 @@ settings:
 
   # ---- Correlation & recommender settings (v1.1) ---------------------------
   # Feature-flag toggles use `disable*` semantics because Stash reports
-  # every untouched BOOLEAN as `false` â€” with `enable*` names, the plugin
+  # every untouched BOOLEAN as `false` — with `enable*` names, the plugin
   # would ship with every tab OFF on a fresh install. `disable*: true`
   # explicitly opts out of a heavy computation.
   disableCorrelations:
     displayName: Disable correlations tab
-    description: Skip attribute Ã— O-count correlation aggregates on very large libraries.
+    description: Skip attribute × O-count correlation aggregates on very large libraries.
     type: BOOLEAN
   correlationMinSupport:
     displayName: Correlation min support
@@ -147,29 +147,29 @@ settings:
       Empty object {} disables preference filtering entirely.
     type: STRING
   matchMinScore:
-    displayName: Match minimum score (0â€“100)
+    displayName: Match minimum score (0–100)
     description: Drop performers/scenes whose weighted match score is below this threshold.
     type: NUMBER
   matchIncludeUnknown:
     displayName: Treat missing attributes as partial matches
     description: >
       When ON, an attribute with no data (e.g. unknown eye color) contributes
-      0.5 Ã— its weight to the score instead of 0. Useful on libraries with
+      0.5 × its weight to the score instead of 0. Useful on libraries with
       sparse performer metadata.
     type: BOOLEAN
 
   # ---- v1.2 advanced analytics ------------------------------------------
   disablePlayHistory:
     displayName: Disable Play tab
-    description: Skip the day-of-week Ã— hour-of-day heatmap + most-watched aggregation.
+    description: Skip the day-of-week × hour-of-day heatmap + most-watched aggregation.
     type: BOOLEAN
   disableArchetypes:
     displayName: Disable Archetypes tab
-    description: Skip the O(nÂ²) k-means clustering + cosine-similarity index on very large libraries.
+    description: Skip the O(n²) k-means clustering + cosine-similarity index on very large libraries.
     type: BOOLEAN
   archetypeClusters:
     displayName: Archetype cluster count (k)
-    description: Number of performer archetype clusters to compute (2â€“12).
+    description: Number of performer archetype clusters to compute (2–12).
     type: NUMBER
   disableDiversity:
     displayName: Disable diversity analytics
@@ -185,7 +185,7 @@ settings:
     type: BOOLEAN
   fantasyMode:
     displayName: Fantasy Builder seed mode
-    description: How to pick the seed performers â€” favorites | top-rated | top-o.
+    description: How to pick the seed performers — favorites | top-rated | top-o.
     type: STRING
   fantasyConsensus:
     displayName: Fantasy consensus threshold
@@ -222,23 +222,23 @@ settings:
     description: Skip near-duplicate detection, always-together pair analysis and hierarchy audit.
     type: BOOLEAN
   tagoptRareThreshold:
-    displayName: Tag Optimizer â€” rare tag threshold
+    displayName: Tag Optimizer — rare tag threshold
     description: Tags with fewer scenes than this are surfaced as "rare" cleanup candidates.
     type: NUMBER
   tagoptPairMinSupport:
-    displayName: Tag Optimizer â€” pair min support
+    displayName: Tag Optimizer — pair min support
     description: A tag pair needs at least this many shared scenes before it's considered for merge / specialisation detection.
     type: NUMBER
   tagoptUndertagMax:
-    displayName: Tag Optimizer â€” under-tagged threshold
+    displayName: Tag Optimizer — under-tagged threshold
     description: Scenes with this many tags or fewer are flagged as under-tagged.
     type: NUMBER
   tagoptOvertagMin:
-    displayName: Tag Optimizer â€” over-tagged threshold
+    displayName: Tag Optimizer — over-tagged threshold
     description: Scenes with this many tags or more are flagged as over-tagged (auto-tagger noise).
     type: NUMBER
 
-# Runnable tasks â€” appear on the Tasks page under Plugin Tasks â†’ Metrics.
+# Runnable tasks — appear on the Tasks page under Plugin Tasks → Metrics.
 # All tasks share the top-level `exec:` above; `defaultArgs.mode` is the
 # only per-task distinction and is delivered to the script through
 # Stash's stdin JSON payload (args.mode).
@@ -247,14 +247,14 @@ tasks:
     description: >
       Compute the complete analytics package, write JSON + CSV + a standalone
       visual HTML report to the plugin's cache/reports directory, and refresh
-      the dashboard cache. Heavy operation â€” runs in the background.
+      the dashboard cache. Heavy operation — runs in the background.
     defaultArgs:
       mode: full-report
 
   - name: Update Metrics Cache
     description: >
       Recompute the aggregated metrics consumed by the dashboard. Cheap
-      compared to the full report â€” no CSV/HTML output. Use after a scan or
+      compared to the full report — no CSV/HTML output. Use after a scan or
       metadata regeneration.
     defaultArgs:
       mode: cache-refresh
@@ -279,7 +279,7 @@ tasks:
     description: >
       Generates a comprehensive .xlsx workbook with one sheet per entity
       (Scenes, Performers, Tags, Studios), cross-reference junction
-      sheets (Scene Ã— Performer, Scene Ã— Tag), tag co-occurrence,
+      sheets (Scene × Performer, Scene × Tag), tag co-occurrence,
       correlations, top matches (if a preference profile is set) and
       quality insights. Auto-filters and frozen header rows on every
       sheet. Output goes to cache/reports/<ts>/library-export.xlsx +
@@ -287,7 +287,7 @@ tasks:
     defaultArgs:
       mode: excel-export
 
-# Optional hooks â€” wired up if the corresponding setting is on. Stash will
+# Optional hooks — wired up if the corresponding setting is on. Stash will
 # still call us on every event; the script no-ops when the toggle is off.
 hooks:
   - name: Refresh metrics after a scan
